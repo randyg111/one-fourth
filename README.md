@@ -1,1 +1,1 @@
-# one-fourth
+# one-in-four

@@ -1,10 +1,9 @@
 import './App.css';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const App = () => {
   const [grid, setGrid] = useState(new Array());
-  const [phrase, setPhrase] = useState(new Set());
-  const [four, setFour] = useState(new Array());
+  const [all, setAll] = useState(new Set());
 
   useEffect(() => {
     fetch('/words.txt')
@@ -21,8 +20,33 @@ const App = () => {
           }
         }
 
-        setPhrase(phrase);
-        setFour(four);
+        const all = new Set();
+        const chars = new Set();
+        loop:
+        while(chars.size < 20) {
+          const rand = Math.floor(Math.random() * four.length);
+          const word = four[rand];
+          for(const c of word) {
+            if(chars.has(c)) continue loop;
+          }
+          for(const c of word) {
+            chars.add(c);
+          }
+          all.add(word);
+        }
+
+        const grid = new Array();
+
+        for(const char of chars) {
+          if(grid.length == 0 || grid[grid.length-1].length == 4) {
+            grid.push(new Array());
+          }
+          grid[grid.length-1].push(char);
+        }
+
+        console.log(grid);
+        setGrid(grid);
+        setAll(all);
       });
   }, []);
   

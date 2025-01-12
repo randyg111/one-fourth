@@ -9,6 +9,7 @@ const App = () => {
   const [score, setScore] = useState<number>(0);
   const [rank, setRank] = useState<string>("老外");
   const [rows, setRows] = useState<number>(0);
+  const [found, setFound] = useState<string[]>([]);
 
   const points = [0, 1, 2, 4, 8];
 
@@ -66,6 +67,7 @@ const App = () => {
         const words = text.split("\n");
 
         for (const word of words) {
+          if(!word) continue;
           if (word.length < 4) {
             phrases.add(word);
           } else {
@@ -158,6 +160,11 @@ const App = () => {
     let nextScore = score;
 
     if(all.has(word)) {
+      setFound((prevFound) => {
+        const foundClone = [...prevFound];
+        foundClone.push(word);
+        return foundClone;
+      });
       if(word.length == 4) {
         for(let i = 0; i < 4; i++) {
           const c = word[i];
@@ -194,8 +201,21 @@ const App = () => {
 
     setScore(nextScore);
   };
+  const list = [];
+  for(let i = 0; i < found.length; i += 12) {
+    const text = [];
+    for(let j = i; j < Math.min(found.length, i + 12); j++) {
+      text.push(<h2 key={j}>{found[j]}</h2>);
+    }
+    list.push(
+      <div className="text-display" key={i}>
+          {text}
+      </div>
+    );
+  }
 
   return (
+    <div className="main-container">
       <div className="app-container">
         <div className="header-container">
         <h1 className="left-heading">{rank}</h1>
@@ -244,6 +264,10 @@ const App = () => {
           ✓
         </button>
       </div>
+      <div className="text-container">
+        {list}
+      </div>
+    </div>
   );
 };
 

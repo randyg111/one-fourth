@@ -32,7 +32,15 @@ const App = () => {
     return chars;
   };
 
-  const check = (chars: Set<string>, phrases: Set<string>, allWords: Set<string>): boolean => {
+  const check = (chars: Set<string>, phrases: Set<string>, four: string[], allWords: Set<string>): boolean => {
+    loop:
+    for(const word of four) {
+      for(const char of word) {
+        if(!chars.has(char)) continue loop;
+      }
+      if(!allWords.has(word)) return false;
+    }
+
     loop:
     for(const phrase of phrases) {
       for(const char of phrase) {
@@ -70,7 +78,7 @@ const App = () => {
         do {
           allWords = new Set<string>();
           charSet = createGrid(four, allWords);
-        } while(!check(charSet, phrases, allWords));
+        } while(!check(charSet, phrases, four, allWords));
 
         console.log(allWords);
 

@@ -9,7 +9,7 @@
 
 using namespace std;
 
-bool check(string& word, unordered_set<string>& four) {
+bool check(string& word, unordered_set<string>& four, unordered_set<string>& bad) {
     if(word.size() > 12) return false;
 
     wstring_convert<codecvt_utf8<char32_t>, char32_t> converter;
@@ -24,8 +24,11 @@ bool check(string& word, unordered_set<string>& four) {
 
     if(seen.size() == 4) {
         string str(seen.begin(), seen.end());
-        if(four.find(str) != four.end()) {
+        if(bad.find(str) != bad.end()) {
             return false;
+        }
+        if(four.find(str) != four.end()) {
+            bad.insert(str);
         }
         four.insert(str);
     }
@@ -35,7 +38,7 @@ bool check(string& word, unordered_set<string>& four) {
 
 int main() {
     ifstream fin("Chinese language database _ 中文数据库 - All Words (Frequency).csv");
-    ofstream fout("words.txt");
+    ofstream fout("public/text/words.txt");
 
     string line;
     int skip = 3;
@@ -44,6 +47,8 @@ int main() {
     }
 
     unordered_set<string> four;
+    unordered_set<string> bad;
+    unordered_set<string> words;
 
     while(getline(fin, line)) {
         stringstream ss(line);
@@ -54,8 +59,13 @@ int main() {
             getline(ss, word, ',');
         }
 
-        if(!check(word, four)) continue;
+        if(!check(word, four, bad)) continue;
         
+        words.insert(word);
+    }
+
+    for(auto word : words) {
+        if(!check(word, four, bad)) continue;
         fout << word << endl;
     }
 }

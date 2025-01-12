@@ -45,13 +45,12 @@ const App = () => {
     for(const word of allWords) {
       max += points[word.length];
     }
-    console.log(allWords);
 
     return max >= 120;
   };
 
   useEffect(() => {
-    fetch('/words.txt')
+    fetch('./text/words.txt')
       .then(r => r.text())
       .then(text => {
         const phrases = new Set<string>();
@@ -72,6 +71,8 @@ const App = () => {
           allWords = new Set<string>();
           charSet = createGrid(four, allWords);
         } while(!check(charSet, phrases, allWords));
+
+        console.log(allWords);
 
         const chars = Array.from(charSet);
         for (let i = chars.length - 1; i > 0; i--) {
@@ -189,13 +190,11 @@ const App = () => {
   return (
       <div className="app-container">
         <div className="header-container">
-        <h1 className="left-heading">{
-        rank
-        }</h1>
+        <h1 className="left-heading">{rank}</h1>
         <h1 className="right-heading">{score}</h1>
       </div>
 
-        {/* Render the topData array as buttons above the grid */}
+        {/* Render the buttons above the grid */}
         <div className="top-container">
           {aboveGrid.map((word, index) => (
             <button 

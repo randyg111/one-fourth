@@ -4,5 +4,5 @@ A random seed will be generated in the url, which can be shared with other playe
 Combine Chinese characters to make phrases.  
 * 2 chars = 2 points
 * 3 chars = 4 points
-* 4 chars = 8 points
+* 4 chars = 8 points  
 Reach 100 points for the highest rank!

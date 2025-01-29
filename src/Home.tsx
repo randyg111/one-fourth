@@ -19,6 +19,15 @@ const Home = () => {
   const createGrid = (four: string[], allWords: Set<string>, indices: Set<number>): Set<string> => {
     const chars = new Set<string>();
 
+    // for (let i = 0; i < four.length; i++) {
+    //   const s = four[i];
+    //   //4683-3325-4311-7478-5261
+    //   if(s.includes("蛇")) {
+    //     console.log(s);
+    //     console.log(i);
+    //   }
+    // }
+
     // Select words and characters until we have 20 unique characters
     loop:
     while (chars.size < 20) {
@@ -79,7 +88,10 @@ const Home = () => {
           }
         }
 
-        const seed = searchParams.get('seed');
+        let seed = searchParams.get('seed');
+        if (seed === "春节") {
+          seed = "4683-3325-4311-7478-5261";
+        }
 
         let allWords;
         let charSet;

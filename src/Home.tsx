@@ -89,7 +89,7 @@ const Home = () => {
         }
 
         let seed = searchParams.get('seed');
-        if (seed === "春节") {
+        if (seed === "chinese-new-year") {
           seed = "4683-3325-4311-7478-5261";
         }
 
